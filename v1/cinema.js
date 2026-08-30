@@ -135,7 +135,11 @@
     'juicyads', 'popads', 'poptm', 'propeller', 'taboola', 'outbrain',
     'hilltopads', 'adsterra', 'clickadu', 'mgid', 'revcontent', 'trafficjunky',
     'facebook', 'disqus', 'twitter', 'instagram', 'recaptcha', 'tawk',
-    'chatango', 'histats', 'analytics', 'onesignal', 'googletagmanager'
+    'chatango', 'histats', 'analytics', 'onesignal', 'googletagmanager',
+    /* Trailer / social embeds are never the episode. shippuden.co.il embeds the
+       SAME YouTube trailer iframe first on every page, before the real
+       mp4upload player — promoting it is why Naruto "showed no episode". */
+    'youtube.com', 'youtu.be', 'youtube-nocookie', 'ytimg', 'player.vimeo', 'dailymotion'
   ];
   /* id/class/name that mark an ad slot even on an innocent-looking host. */
   var AD_ATTR_RE = /(^|[-_])(ads?|adv|advert|banner|sponsor|promo)([-_\d]|$)|google_ads|adslot|adzone|aswift/i;
@@ -171,6 +175,71 @@
     else if (typeof window.__ATV_EP === 'string') { EP = parseInt(window.__ATV_EP, 10) || 0; }
   } catch (eEp) { EP = 0; }
   if (!(EP > 0)) { EP = 0; }
+
+  /* Optional site rules injected by native as window.__ATV_RULES (the catalog's
+     site_rules object). cinema.js runs fully without them; they only refine
+     targeting. Before this build the object was injected but never read. */
+  var RULES = null;
+  try {
+    if (window.__ATV_RULES && typeof window.__ATV_RULES === 'object') { RULES = window.__ATV_RULES; }
+  } catch (eRules) { RULES = null; }
+
+  /* Some animeisrael season pages number episodes LOCALLY ("פרק 1".."פרק K")
+     even though native asks for a global episode number, so "פרק 40" is nowhere
+     on the page and myFunction40 is a different (wrong) episode. When the rules
+     carry this page's episode list we translate the global number into the
+     page-local index the page's own controls actually use. ALT holds that local
+     number, or 0 when it is unknown or identical to EP. Global is always tried
+     first, so pages that DO number globally (bleach, black-clover) are unaffected. */
+  function expandRanges(a) {
+    var out = [];
+    if (!a || !a.length) { return out; }
+    for (var i = 0; i < a.length; i++) {
+      var seg = a[i];
+      if (typeof seg === 'number') { out.push(seg); continue; }
+      var s = String(seg);
+      var m = /^(\d+)\s*-\s*(\d+)$/.exec(s);
+      if (m) { for (var k = parseInt(m[1], 10); k <= parseInt(m[2], 10); k++) { out.push(k); } }
+      else if (/^\d+$/.test(s)) { out.push(parseInt(s, 10)); }
+    }
+    return out;
+  }
+  function currentPageEpisodes() {
+    try {
+      if (!RULES) { return null; }
+      var host = hostOf(location.href);
+      var r = host ? RULES[host] : null;
+      if (!r || !r.page_episode_map) { return null; }
+      var map = r.page_episode_map;
+      var path = location.pathname || '';
+      var arr = map[path];
+      if (!arr) { arr = map[path.replace(/\/+$/, '')]; }
+      if (!arr) { arr = map[path.replace(/\/*$/, '/')]; }
+      return (arr && arr.length) ? arr : null;
+    } catch (e) { return null; }
+  }
+  function localIndexOf(n) {
+    try {
+      var eps = currentPageEpisodes();
+      if (!eps) { return 0; }
+      var flat = expandRanges(eps);
+      for (var i = 0; i < flat.length; i++) { if (flat[i] === n) { return i + 1; } }
+    } catch (e) {}
+    return 0;
+  }
+  var ALT = 0;
+  try {
+    if (EP > 0) { var li = localIndexOf(EP); if (li > 0 && li !== EP) { ALT = li; } }
+  } catch (eAlt) { ALT = 0; }
+
+  /* The number the CURRENT PAGE uses for the requested episode. On a page listed
+     in page_episode_map the page numbers locally, so the local index is the truth
+     and the global number would hit a different (wrong) control — that is why the
+     map deliberately excludes globally-numbered pages (bleach, black-clover). Off
+     the map, ALT is 0 and the global number is used, exactly as before. */
+  function tgt() { return ALT > 0 ? ALT : EP; }
+
+  var driveSelected = false; /* clicked a Drive source tab on a multi-source page */
 
   var engaged = null;        /* element currently promoted */
   var engagedKind = '';      /* 'player' | 'placeholder' */
@@ -617,10 +686,11 @@
 
     if (EP > 0) {
       for (i = 0; i < list.length; i++) {
-        if (list[i].ep === EP) { return { cand: list[i], how: 'label' }; }
+        if (list[i].ep === EP || (ALT > 0 && list[i].ep === ALT)) { return { cand: list[i], how: 'label' }; }
       }
-      if (labeled === 0 && list.length > 1 && EP <= list.length) {
-        return { cand: list[EP - 1], how: 'position' };
+      if (labeled === 0 && list.length > 1) {
+        var posN = (ALT > 0 ? ALT : EP);
+        if (posN <= list.length) { return { cand: list[posN - 1], how: 'position' }; }
       }
       /* Does the page enumerate episodes? If it does, and none of them is N,
          then N genuinely is not here. This is the switcher/ep-99 case. */
@@ -977,6 +1047,49 @@
     return null;
   }
 
+  /* onepiece-nakama offers several source tabs (MEGA / Google Drive), each
+     carrying its embed URL in data-src, and injects the iframe for the ACTIVE
+     tab when the overlay is clicked. Old episodes tend to default to a MEGA tab,
+     and MEGA plays poorly in the old system WebView, so we click the Google
+     Drive tab first — matching on the URL, never the tab label ("Drive", "גוגל
+     דרייב", "שרת 2" all vary). Runs once, before unlocking. */
+  function looksLikeSourceTab(el) {
+    var tag = el.tagName;
+    /* Never an <a href> — that is a download/navigation link, not a source
+       switcher, and clicking it would leave the page. Never the frame itself. */
+    if (tag === 'IFRAME' || tag === 'VIDEO') { return false; }
+    if (tag === 'A') { var href = attr(el, 'href'); if (href && href.charAt(0) !== '#' && lower(href).indexOf('javascript:') !== 0) { return false; } }
+    if (lower(attr(el, 'role')) === 'tab') { return true; }
+    var bag = classOf(el) + ' ' + attr(el, 'id') + ' ' + attr(el, 'data-tab');
+    if (/(^|[-_ ])(tab|source|server|mirror|opv)([-_ \d]|$)/i.test(bag)) { return true; }
+    /* A short clickable box (button/li/span/div) is a plausible tab. */
+    if (tag === 'BUTTON' || tag === 'LI' || tag === 'SPAN' || tag === 'DIV') {
+      return normText(ownText(el)).length <= 24;
+    }
+    return false;
+  }
+  function preferDriveSource() {
+    if (driveSelected) { return false; }
+    try {
+      var all = document.body ? document.body.getElementsByTagName('*') : [];
+      var lim = Math.min(all.length, MAX_NODES), i, best = null;
+      for (i = 0; i < lim; i++) {
+        var el = all[i];
+        var ds = attr(el, 'data-src') || attr(el, 'data-litespeed-src') || '';
+        if (!ds) { continue; }
+        var low = lower(ds);
+        /* Must point at a Drive embed, and the element must look like a source
+           tab — not a download anchor, an ad, or the player frame. */
+        if ((low.indexOf('drive.google.com/file/d/') !== -1 || low.indexOf('docs.google.com/file/d/') !== -1) &&
+            !looksLikeAd(el) && looksLikeSourceTab(el)) {
+          best = el; break;
+        }
+      }
+      if (best) { driveSelected = true; clickEl(best); return true; }
+    } catch (e) {}
+    return false;
+  }
+
   /* Some sites (onepiece-nakama) show a poster with a "לחצו לצפייה" overlay and
      only build the MEGA/Drive iframe once it is clicked. Only ever runs while no
      player exists on the page. */
@@ -1031,22 +1144,25 @@
   function scanAndAct() {
     var s = scanWithContext();
 
-    /* (a) the site's own API — by far the most reliable path */
+    /* (a) the site's own API — by far the most reliable path. tgt() is the
+       page's own number for this episode: the page-local index on a locally
+       numbered season page (from page_episode_map), otherwise the global number.
+       Using the wrong one silently plays the wrong episode, so we never guess. */
     if (EP > 0 && !usedFn) {
       usedFn = true;
-      var f = getFn(EP);
+      var f = getFn(tgt());
       if (f) {
-        beginWait('fn', fnHint(EP), true, EP);
+        beginWait('fn', fnHint(tgt()), true, EP);
         try { f(); } catch (e) {}
         checkSwitch(true);
         return;
       }
     }
 
-    /* (b) press what a human would press */
+    /* (b) press what a human would press — the control whose text is "פרק tgt()" */
     if (EP > 0 && !usedClick) {
       usedClick = true;
-      var c = findControl(EP);
+      var c = findControl(tgt());
       if (c) {
         var hint = hintFrom(attr(c.el, 'onclick'));
         if (!hint) { hint = fnHint(EP); }
@@ -1061,8 +1177,10 @@
     var d = decide(s);
     if (d.cand) { engagePlayer(d.cand, d.how); return; }
 
-    /* (d) unlock a click-to-load overlay, then re-run from (a) */
+    /* (d) unlock a click-to-load overlay, then re-run from (a). On multi-source
+       pages, select the Drive tab first so the overlay injects the Drive iframe. */
     if (!s.players.length) {
+      preferDriveSource();
       if (tryUnlock(s.unlocks)) {
         usedFn = false;
         usedClick = false;
@@ -1177,10 +1295,17 @@
   window.__atvNext = function () {
     try {
       var n = EP + 1;
-      var f = getFn(n);
+      /* Recompute the page-local index for n from scratch (handles gaps in the
+         page's episode ranges); 0 off the map or on a globally numbered page.
+         nTgt is the number THIS page uses for n. */
+      var nAlt = localIndexOf(n);
+      if (!(nAlt > 0) || nAlt === n) { nAlt = 0; }
+      var nTgt = nAlt > 0 ? nAlt : n;
+      var f = getFn(nTgt);
       if (f) {
-        beginWait('fn', fnHint(n), true, n);
+        beginWait('fn', fnHint(nTgt), true, n);
         EP = n;
+        ALT = nAlt;
         targetReported = '';
         targetFinal = false;
         try { f(); } catch (e1) {}
@@ -1188,12 +1313,13 @@
         checkSwitch(true);
         return 1;
       }
-      var c = findControl(n);
+      var c = findControl(nTgt);
       if (c && c.strong) {
         var hint = hintFrom(attr(c.el, 'onclick'));
-        if (!hint) { hint = fnHint(n); }
+        if (!hint) { hint = fnHint(nTgt); }
         beginWait('click', hint, true, n);
         EP = n;
+        ALT = nAlt;
         targetReported = '';
         targetFinal = false;
         clickEl(c.el);
