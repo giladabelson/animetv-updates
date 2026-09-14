@@ -1,0 +1,65 @@
+{
+  "apk": {
+    "versionCode": 0
+  },
+  "flags": {
+    "episodeBlockSize": 50
+  },
+  "layout": {
+    "cardPosterDp": 150,
+    "cardWideDp": 260,
+    "hidden": [],
+    "rows": [
+      "continue",
+      "latest",
+      "series",
+      "movies",
+      "channels"
+    ],
+    "uiScale": 1.0
+  },
+  "note": "test config: proves the OTA chain end to end",
+  "seq": 3,
+  "sig": "uNeOR0uhN9ZbO3CYaTy+NBdStA8P5h0l74AXXiHi7lo2w5O57YRs6aYgv4gYzaPMMDqqk6UgvkNIUCCxFLxPmlMhI/8zOPZibRe8EJo3nj7GyehM+VsgwqSMbVFoUOUsWc8MxiWufnoU1i4SfoC4CAui0kUjtajluoxe1MLRVw9egvoG8T/Pal9SSpo38IDb0dPa5tn5U7Ig2ghmNhUBuAvOHMmSm3RFPccu2dQuc6gB5O4TvEueX08XxXjcLfUkSrnyptDP6yzx6EHD7y/hnv5ftR1Mq01WX3qRgOlXjmHIxVJEBjRbvLFDLRUqhDqG84AKgVUVy1pu7JwYVV/Thg==",
+  "strings": {
+    "row_channels": "ערוצים",
+    "row_continue": "המשך צפייה — עדכון מרחוק עובד",
+    "row_latest": "פרקים חדשים",
+    "row_movies": "סרטים",
+    "row_series": "סדרות"
+  },
+  "theme": {
+    "cardAspect": 1.5,
+    "colors": {
+      "accent": "#FF3DDC97",
+      "bg": "#FF0B0B12",
+      "bgCard": "#FF1B1B28",
+      "bgElev": "#FF15151F",
+      "danger": "#FFE5484D",
+      "scrim": "#CC05050A",
+      "text": "#FFF2F2F7",
+      "textDim": "#FF9E9EB3"
+    },
+    "focus": {
+      "button": 1.04,
+      "card": 1.06
+    },
+    "gutter": 16,
+    "radius": 24,
+    "spacing": {
+      "l": 20,
+      "m": 12,
+      "s": 8,
+      "xl": 32,
+      "xs": 4
+    },
+    "type": {
+      "body": 20,
+      "caption": 14,
+      "display": 44,
+      "label": 17,
+      "section": 24,
+      "title": 32
+    }
+  }
+}
