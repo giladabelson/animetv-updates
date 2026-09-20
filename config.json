@@ -1,6 +1,9 @@
 {
   "apk": {
-    "versionCode": 0
+    "sha256": "8ff536d949f0e3c3b66f500ad97d17053af0f39d5e97666b3d83b25b0f2474e3",
+    "url": "https://github.com/giladabelson/animetv-updates/releases/download/v2.5.0/anime-tv-2.5.0-tv.apk",
+    "versionCode": 7,
+    "versionName": "2.5.0"
   },
   "flags": {
     "episodeBlockSize": 50
@@ -18,9 +21,9 @@
     ],
     "uiScale": 1.0
   },
-  "note": "test config: proves the OTA chain end to end",
-  "seq": 3,
-  "sig": "uNeOR0uhN9ZbO3CYaTy+NBdStA8P5h0l74AXXiHi7lo2w5O57YRs6aYgv4gYzaPMMDqqk6UgvkNIUCCxFLxPmlMhI/8zOPZibRe8EJo3nj7GyehM+VsgwqSMbVFoUOUsWc8MxiWufnoU1i4SfoC4CAui0kUjtajluoxe1MLRVw9egvoG8T/Pal9SSpo38IDb0dPa5tn5U7Ig2ghmNhUBuAvOHMmSm3RFPccu2dQuc6gB5O4TvEueX08XxXjcLfUkSrnyptDP6yzx6EHD7y/hnv5ftR1Mq01WX3qRgOlXjmHIxVJEBjRbvLFDLRUqhDqG84AKgVUVy1pu7JwYVV/Thg==",
+  "note": "2.5.0 - artwork fix, series home, player transport bar",
+  "seq": 13,
+  "sig": "wP3NV9J17d0McNXZnRNNMipod8psXdOtCkFbRevkZwER5atNlU1sLJTe4/d6Ro7WOAmm1TK3uSzY9z5z4+lb9H01T90r1DjswIwOT2pX6LX8YGnql8szmd/Vh2isSR9/wduHFgkWD9DvZNSNdAdE+1KcV2mqwort/9phkf1VkfloLj54aIu0Ou8EFFRbDyrd1QgWFMdau8pzlf9waSB9paNd9KVGRHS6fJIDCvNz8By+8p+6+PGdIN1K69wKhnnC7q4O9cmXHxmhorfSuQ0zs88r3yR6Gu6liXWYxX61Vw6VaDycX+Wyd5zSOTql3pXMvipMuXTGdFeR1PdDUSt7uw==",
   "strings": {
     "row_channels": "ערוצים",
     "row_continue": "המשך צפייה — עדכון מרחוק עובד",
