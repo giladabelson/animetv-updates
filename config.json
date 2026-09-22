@@ -1,68 +1,11 @@
 {
   "apk": {
-    "sha256": "8ff536d949f0e3c3b66f500ad97d17053af0f39d5e97666b3d83b25b0f2474e3",
-    "url": "https://github.com/giladabelson/animetv-updates/releases/download/v2.5.0/anime-tv-2.5.0-tv.apk",
-    "versionCode": 7,
-    "versionName": "2.5.0"
+    "sha256": "c3577ae2c772a1f0d94e3581f9a5cf16b266a431374913ec09bb3181d27a6c7a",
+    "url": "https://github.com/giladabelson/animetv-updates/releases/download/v2.6.0/anime-tv-2.6.0-tv.apk",
+    "versionCode": 8,
+    "versionName": "2.6.0"
   },
-  "flags": {
-    "episodeBlockSize": 50
-  },
-  "layout": {
-    "cardPosterDp": 150,
-    "cardWideDp": 260,
-    "hidden": [],
-    "rows": [
-      "continue",
-      "latest",
-      "series",
-      "movies",
-      "channels"
-    ],
-    "uiScale": 1.0
-  },
-  "note": "2.5.0 - artwork fix, series home, player transport bar",
-  "seq": 13,
-  "sig": "wP3NV9J17d0McNXZnRNNMipod8psXdOtCkFbRevkZwER5atNlU1sLJTe4/d6Ro7WOAmm1TK3uSzY9z5z4+lb9H01T90r1DjswIwOT2pX6LX8YGnql8szmd/Vh2isSR9/wduHFgkWD9DvZNSNdAdE+1KcV2mqwort/9phkf1VkfloLj54aIu0Ou8EFFRbDyrd1QgWFMdau8pzlf9waSB9paNd9KVGRHS6fJIDCvNz8By+8p+6+PGdIN1K69wKhnnC7q4O9cmXHxmhorfSuQ0zs88r3yR6Gu6liXWYxX61Vw6VaDycX+Wyd5zSOTql3pXMvipMuXTGdFeR1PdDUSt7uw==",
-  "strings": {
-    "row_channels": "ערוצים",
-    "row_continue": "המשך צפייה — עדכון מרחוק עובד",
-    "row_latest": "פרקים חדשים",
-    "row_movies": "סרטים",
-    "row_series": "סדרות"
-  },
-  "theme": {
-    "cardAspect": 1.5,
-    "colors": {
-      "accent": "#FF3DDC97",
-      "bg": "#FF0B0B12",
-      "bgCard": "#FF1B1B28",
-      "bgElev": "#FF15151F",
-      "danger": "#FFE5484D",
-      "scrim": "#CC05050A",
-      "text": "#FFF2F2F7",
-      "textDim": "#FF9E9EB3"
-    },
-    "focus": {
-      "button": 1.04,
-      "card": 1.06
-    },
-    "gutter": 16,
-    "radius": 24,
-    "spacing": {
-      "l": 20,
-      "m": 12,
-      "s": 8,
-      "xl": 32,
-      "xs": 4
-    },
-    "type": {
-      "body": 20,
-      "caption": 14,
-      "display": 44,
-      "label": 17,
-      "section": 24,
-      "title": 32
-    }
-  }
+  "note": "2.6.0 - focus fixes, typography cards, background artwork, saved-messages sync",
+  "seq": 15,
+  "sig": "VVPIvk7t/ARBihxL/MuZ3NwRsMuxeMaBK/P3ej/1zMrU5NcxD6x6lPXFI+UweaXWGqiDzTjroENoshjaH5P2oCYL+6Ccmtpw9hsirb7ByA6QX04Pcao41BcibRAG5OHyLajisdKrJscmrDkzYF1iFDC6tgm9Q2lqYmUIqu/+tIyZ9nh0obDnIQj2kvUGg7PPtzzXTa2+aFbjkS1LNthUj44mcorUICokgF8J6QFVuTyJZyI9Occ4vE907zFl4HhGXX+ZCmMpUgc9sPemIb/rJaOy6Cq3krYzEe9sTcXdYNX/ZBQnriwGU4BgJU7AwAS2N48R3JIBRCpuIU97xWoKAg=="
 }
