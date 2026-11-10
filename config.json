@@ -1,11 +1,11 @@
 {
   "apk": {
-    "sha256": "9453297e301c1693b87c84758aebbfeb5c4fc8a59e9629974ab68eb89ff5c2a1",
-    "url": "https://github.com/giladabelson/animetv-updates/releases/download/v2.7.1/anime-tv-2.7.1-tv.apk",
-    "versionCode": 10,
-    "versionName": "2.7.1"
+    "sha256": "0d7f77c4a00b1910b7c4a600bd12bb1066b60e060bf541d71dd117e67f703b7d",
+    "url": "https://github.com/giladabelson/animetv-updates/releases/download/v2.8.0/anime-tv-2.8.0-tv.apk",
+    "versionCode": 11,
+    "versionName": "2.8.0"
   },
   "note": "2.6.0 - focus fixes, typography cards, background artwork, saved-messages sync",
-  "seq": 17,
-  "sig": "T7MAliE4J/JRii8od1K9Ew7tz/1m4Nh7HFtXj+kvkF7j6vAwAaP0oJrm1xHSQ+9r+6lED9V9uJpQkAN5cBoRV9nVS5nxN8zCTzdqqMTkzg1GR3nC6tg/GZc7wwFi5ybgDiqE93cXl20shTXLOqVOoTDu/EFpc2Wt0pzNx+EyP5/U0YAoS+m0u7jugaTrsRvZ2drwB8mnt5gyOpoQexFV/VyDWWAi40rarptQ8WqLlGWsc+UZNJhhnWGhz5r89phCoP8Cx6bfKjr7B6Y1JiVVRuDdVN/D1RmXMhxoW04nwBL4NK/y5BPPq//CBTT8Ud1EVGGs2FXnNY31UPiRFRwCcQ=="
+  "seq": 18,
+  "sig": "Cja8j9Mekkxf1m22ISvcBm2CFI1eXGEOn6ZdfsFLuQQlSLHszKfyceGx9kykUJbTSHrHu4ZTKQbFUu85le0qCbnGTFsL4cZhJn0B+GlOpxqB6G8+LCD8VoDZaRaYjv71tS2F5hVv0N253OvPYhMrq0gQuzmR8eD0CIVvEboptWPW6Y7lWT01LatoUtoU+iiIkyZliZsSYjsAJpkNrgZHgMd/pNxAlyNJgbMjrlHxG4GI5DGuiFh7+HS6HHCgSK0IOQ6pIJXWNyjXGZnUFGCgDIbX+VW9CsFenbH86C5IqwDgR34avtYmrgPGJKh2oqOP+54QDD1tz99O2kK6TlLfGg=="
 }
