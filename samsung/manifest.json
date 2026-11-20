@@ -1,0 +1,12 @@
+{
+ "v": 1,
+ "app": "barner-tv",
+ "seq": 1,
+ "version": "0.3.3",
+ "url": "https://github.com/giladabelson/animetv-updates/releases/download/samsung-v0.3.3/bar-ner-tv-0.3.3.bundle.json",
+ "sha256": "2476247c6db43b98eb6202c1569ad25255e3015bcd7ccf5ad9e7e0a836b5f4c9",
+ "bytes": 1205607,
+ "shell": 1,
+ "notes": "בדיקת עדכון מרחוק",
+ "sig": "HPRGeuNrDeKAGXZzIqw99tZV90ukSgx7w+JUfL322rP0NhkftGpPbVsUWoqTw64fHVqonEvB0LoafQG2NE8BLQHed2+nl2oVX3OlZ40VQ5IwujJ9mrz2Gy8o77F0Rq2sgS2htvxvX+SbWxgSiU199SWOa5ujHZe9eEDABw3zc9gS3/h+ptcraHuVt66U1n8Y20Ck1DuhtizSMlj7eJe7nPmOdmdidycL67JEHMX6LzVS0gcTr2lOIfM9gZSvNCBpym7RfgtmdxWa8V0daVEo1s6HyO4wko4mGUUf0WQ8VePvVdYPbv6TTaOa/G/7IQ4noDLIeWUXasXiHlvJcq32jw=="
+}
